@@ -1,19 +1,18 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class Calculator {
-    ArrayList<Product> products = new ArrayList<>();
-    int numberOfPeople;
-    private double totalCost;
-    Scanner scanner = new Scanner(System.in);
-    Formatter formatter = new Formatter();
+    private ArrayList<Product> products = new ArrayList<>();
+    private int numberOfPeople;
+    private Scanner scanner = new Scanner(System.in);
+    private Formatter formatter = new Formatter();
 
-    public void addItem(Product product) {
-        totalCost += product.getPrice();
+    private void addItem(Product product) {
         products.add(product);
     }
 
-    public void showSummary() {
+    private void showSummary() {
         System.out.println("Список добавленных товаров:");
         double totalCost = 0;
 
@@ -26,34 +25,49 @@ public class Calculator {
         System.out.println("Сумма, которую должен заплатить каждый человек: " + formatter.formatTotalCost(totalCost, numberOfPeople));
     }
 
-    public void action() {
+    void action() {
         while (true) {
             System.out.print("Введите название товара (или 'Завершить' для завершения): ");
-            String productName = scanner.next().trim();
+            String productName = scanner.nextLine().trim();
 
             if (productName.equalsIgnoreCase("Завершить")) {
                 break;
             }
 
-            System.out.print("Введите стоимость товара (в формате рубли.копейки): ");
             double productCost;
 
-            if (scanner.hasNextDouble()) {
-                productCost = scanner.nextDouble();
-                addItem(new Product(productName, productCost));
-                System.out.println("Товар успешно добавлен!");
+            while (true) {
+                System.out.print("Введите стоимость товара (в формате рубли.копейки): ");
 
+                try {
+                    productCost = Double.parseDouble(scanner.nextLine());
+                    if (productCost > 0) {
+                        break;
+                    } else {
+                        System.out.println("Введите положительное число");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Некорректный формат стоимости товара. Пожалуйста, введите число.");
+                }
+            }
+
+            addItem(new Product(productName, productCost));
+            System.out.println("Товар успешно добавлен!");
+
+            while (true) {
                 System.out.print("Хотите добавить ещё один товар? (да/нет): ");
                 String answer = scanner.next().trim();
-                if (!answer.equalsIgnoreCase("да")) {
+                if (answer.equalsIgnoreCase("да")) {
+                    scanner.nextLine();
                     break;
+                } else if (answer.equalsIgnoreCase("нет")) {
+                    showSummary();
+                    return;
+                } else {
+                    System.out.println("Некорректный ввод. Введите только 'да' или 'нет'.");
                 }
-            } else {
-                System.out.println("Некорректный формат стоимости товара. Пожалуйста, введите число.");
-                scanner.next(); // Очищаем буфер ввода
             }
         }
-        showSummary();
     }
 
     public Calculator(int numberOfPeople) {

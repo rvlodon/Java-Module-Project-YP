@@ -5,10 +5,23 @@ public class Formatter {
         int kopecks = (int) Math.round((costPerPerson - rubles) * 100);
 
         String formattedCost = String.valueOf((int) Math.floor(costPerPerson));
-        formattedCost += " руб";
+        formattedCost += " ";
 
-        if (rubles != 1) {
-            formattedCost += "лей";
+        if (rubles % 100 >= 11 && rubles % 100 <= 19) {
+            formattedCost += "рублей";
+        } else {
+            switch (rubles % 10) {
+                case 1:
+                    formattedCost += "рубль";
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    formattedCost += "рубля";
+                    break;
+                default:
+                    formattedCost += "рублей";
+            }
         }
 
         if (kopecks != 0) {

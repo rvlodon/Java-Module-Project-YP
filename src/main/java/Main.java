@@ -8,7 +8,6 @@ public class Main {
         while (true) {
             System.out.println("На сколько человек разделить счет?");
 
-            // Проверка, является ли следующий ввод целым числом
             if (scanner.hasNextInt()) {
                 numberPeople = scanner.nextInt();
 
@@ -19,7 +18,7 @@ public class Main {
                 }
             } else {
                 System.out.println("Ошибка ввода. Введите целое число.");
-                scanner.next(); // очистить буфер ввода
+                scanner.next();
             }
         }
 
