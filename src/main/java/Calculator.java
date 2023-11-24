@@ -47,7 +47,7 @@ public class Calculator {
                         System.out.println("Введите положительное число");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Некорректный формат стоимости товара. Пожалуйста, введите число.");
+                    System.out.println("Некорректный формат стоимости товара. Пожалуйста, введите число (в формате рубли.копейки).");
                 }
             }
 
